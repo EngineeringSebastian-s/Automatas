@@ -4,27 +4,38 @@ import Bean.Node;
 import Logic.Automaton;
 
 import javax.swing.*;
+import java.util.Scanner;
 
 public class Menu {
     public static void runMenu(Node initialNode) {
+        Scanner sc = new Scanner(System.in);
         boolean running = true;
         while (running) {
-            String[] options = {"Enter string", "Exit"};
-            int selection = JOptionPane.showOptionDialog(
-                    null, "Select one:", "Let's play a game!",
-                    JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE,
-                    null, options, options[0]);
-
-            if (selection == 0) {
-                String inputString = JOptionPane.showInputDialog("Enter the string to evaluate");
-                if (inputString != null) {
+            String option = MainMenu();
+            switch (option) {
+                case "Ingresar cadena":
+                    String inputString = JOptionPane.showInputDialog("Ingrese la cadena a evaluar");
                     Automaton automaton = new Automaton(initialNode, inputString);
-                    JOptionPane.showMessageDialog(null, automaton.evaluate());
-                }
-            } else {
-                JOptionPane.showMessageDialog(null, "Goodbye!");
-                running = false;
+                    System.out.println("Resultado: " + automaton.evaluate());
+                    break;
+                case "Salir":
+                    System.out.println("Saliendo del programa...");
+                    running = false;
+                    break;
             }
         }
+    }
+
+    public static String MainMenu() {
+        String[] options = {"Ingresar cadena", "Salir"};
+        return (String) JOptionPane.showInputDialog(
+                null,
+                "Seleccione una opción:",
+                "Menú del Autómata",
+                JOptionPane.QUESTION_MESSAGE,
+                null,
+                options,
+                options[0]
+        );
     }
 }
