@@ -11,6 +11,7 @@ public class Main {
         Node q0 = new Node("Q0",true, false);
         Node q1 = new Node("Q1",false, true);
         Node q2 = new Node("Q2",false, false);
+        Node q3 = new Node("Q3",false, false);
         Node q4 = new Node("Q4",false, true);
         Node q5 = new Node("Q5",false, true);
         Node q6 = new Node("Q6",false, true);

@@ -1,6 +1,5 @@
 package View;
 
-import Bean.Node;
 import Logic.Automaton;
 
 import javax.swing.*;
@@ -18,7 +17,7 @@ public class Menu {
                     System.out.println("Resultado: " + automaton.evaluate(inputString));
                     break;
                 case "Ver automata":
-                    automaton.ShowGraph();
+                    automaton.Show();
                     break;
                 case "Salir":
                     System.out.println("Saliendo del programa...");
@@ -29,7 +28,7 @@ public class Menu {
     }
 
     public static String MainMenu() {
-        String[] options = {"Ingresar cadena", "Ver Automata","Salir"};
+        String[] options = {"Ingresar cadena", "Ver automata","Salir"};
         return (String) JOptionPane.showInputDialog(
                 null,
                 "Seleccione una opción:",

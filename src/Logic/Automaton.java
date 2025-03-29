@@ -31,10 +31,10 @@ public class Automaton {
         return currentNode.isFinal();
     }
 
-    public void ShowGraph(){
+    public void Show(){
         Set<Node> visited = new HashSet<>();
         Queue<Node> queue = new LinkedList<>();
-        StringBuilder ConfigGraphviz = new StringBuilder("graph ImagenAutomata\n{\nlayout=neato;\n");
+        StringBuilder ConfigGraphviz = new StringBuilder("graph g\n{\n");
 
         queue.add(currentNode);
         visited.add(currentNode);
@@ -43,7 +43,7 @@ public class Automaton {
             Node node = queue.poll();
 
             if (node.getLinkA() != null) {
-                ConfigGraphviz.append(String.format("%s--%s [label=\"a\"];\n",node.getName(),node.getLinkA().getName()));
+                ConfigGraphviz.append(String.format("%s -> %s [label=\"a\"];\n",node.getName(),node.getLinkA().getName()));
                 if (!visited.contains(node.getLinkA())) {
                     queue.add(node.getLinkA());
                     visited.add(node.getLinkA());
@@ -51,13 +51,14 @@ public class Automaton {
             }
 
             if (node.getLinkB() != null) {
-                ConfigGraphviz.append(String.format("%s--%s [label=\"b\"];\n",node.getName(),node.getLinkB().getName()));
+                ConfigGraphviz.append(String.format("%s -> %s [label=\"b\"];\n",node.getName(),node.getLinkB().getName()));
                 if (!visited.contains(node.getLinkB())) {
                     queue.add(node.getLinkB());
                     visited.add(node.getLinkB());
                 }
             }
         }
+        ConfigGraphviz.append("Q0 [color=red];\n");
         ConfigGraphviz.append("}\n");
         GraphvizController.generate(ConfigGraphviz.toString());
     }
