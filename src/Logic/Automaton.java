@@ -29,7 +29,10 @@ public class Automaton {
         }
 
         int index = 0;
-        StringBuilder ConfigGraphviz = new StringBuilder("digraph g\n{\n");
+        StringBuilder ConfigGraphviz = new StringBuilder("digraph g {\n")
+                .append("rankdir=LR;\n")
+                .append("inicio [shape=plaintext];\n");
+
         while (index < inputString.length()) {
             char symbol = inputString.charAt(index);
             Node nextNode = getNextNode(currentNode, symbol, symbols);
@@ -37,6 +40,15 @@ public class Automaton {
             if (nextNode == null) {
                 return false;
             }
+
+            if(currentNode.isFinal()){
+                ConfigGraphviz.append(String.format("%s [shape=doublecircle]", currentNode.getName()));
+            }
+
+            if(currentNode.isInitial()){
+                ConfigGraphviz.append(String.format("inicio -> %s;\n%s [color=lightblue, style=filled]", currentNode.getName(),currentNode.getName()));
+            }
+
             ConfigGraphviz.append(String.format("%s -> %s [label=\"%c\"];\n",currentNode.getName(),nextNode.getName(), symbol));
             currentNode = nextNode;
             index++;
@@ -64,7 +76,8 @@ private Node getNextNode(Node currentNode, char symbol, List<String> symbols) {
         Queue<Node> queue = new LinkedList<>();
         StringBuilder ConfigGraphviz = new StringBuilder("digraph g {\n")
                 .append("rankdir=LR;\n")
-                .append("inicio [shape=plaintext];\n");
+                .append("inicio [shape=plaintext];\n")
+                .append("node [fillcolor=yellow,style=filled];\n");
 
         queue.add(currentNode);
         visited.add(currentNode);
@@ -77,7 +90,7 @@ private Node getNextNode(Node currentNode, char symbol, List<String> symbols) {
             }
 
             if(node.isInitial()){
-                ConfigGraphviz.append(String.format("inicio -> %s;\n%s [color=blue]", node.getName(),node.getName()));
+                ConfigGraphviz.append(String.format("inicio -> %s;\n%s [fillcolor=lightblue, style=filled]", node.getName(),node.getName()));
             }
 
             processLink(node, node.getLinkA(), "a", "red", queue, visited, ConfigGraphviz);
