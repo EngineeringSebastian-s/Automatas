@@ -31,7 +31,8 @@ public class Automaton {
         int index = 0;
         StringBuilder ConfigGraphviz = new StringBuilder("digraph g {\n")
                 .append("rankdir=LR;\n")
-                .append("inicio [shape=plaintext];\n");
+                .append("inicio [shape=plaintext];\n")
+                .append("node [fillcolor=yellow,style=filled];\n");
 
         while (index < inputString.length()) {
             char symbol = inputString.charAt(index);
@@ -46,7 +47,7 @@ public class Automaton {
             }
 
             if(currentNode.isInitial()){
-                ConfigGraphviz.append(String.format("inicio -> %s;\n%s [color=lightblue, style=filled]", currentNode.getName(),currentNode.getName()));
+                ConfigGraphviz.append(String.format("inicio -> %s;\n%s [fillcolor=lightblue, style=filled]", currentNode.getName(),currentNode.getName()));
             }
 
             ConfigGraphviz.append(String.format("%s -> %s [label=\"%c\"];\n",currentNode.getName(),nextNode.getName(), symbol));
