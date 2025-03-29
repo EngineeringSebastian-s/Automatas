@@ -1,31 +1,40 @@
 package Bean;
 
 public class Node {
+    public String name;
     public boolean isFinal;
     private boolean isInitial;
     private Node linkA = null;
     private Node linkB = null;
-    private int state;
 
-    public Node(boolean isInitial, boolean isFinal) {
+    public Node(String name, boolean isInitial, boolean isFinal) {
         this.isInitial = isInitial;
         this.isFinal = isFinal;
+        this.name = name;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public boolean isFinal() {
         return isFinal;
     }
 
-    public void setFinal(boolean isFinal) {
-        this.isFinal = isFinal;
+    public void setFinal(boolean aFinal) {
+        isFinal = aFinal;
     }
 
     public boolean isInitial() {
         return isInitial;
     }
 
-    public void setInitial(boolean isInitial) {
-        this.isInitial = isInitial;
+    public void setInitial(boolean initial) {
+        isInitial = initial;
     }
 
     public Node getLinkA() {
@@ -42,13 +51,5 @@ public class Node {
 
     public void setLinkB(Node linkB) {
         this.linkB = linkB;
-    }
-
-    public int getState() {
-        return state;
-    }
-
-    public void setState(int state) {
-        this.state = state;
     }
 }

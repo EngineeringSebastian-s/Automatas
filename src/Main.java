@@ -1,16 +1,37 @@
 import Bean.Node;
 import Logic.Automaton;
 
-import static Logic.Automaton.initializeNodes;
-import static View.Menu.runMenu;
+import View.Menu;
 
 
 public class Main {
     public static void main(String[] args) {
-        Node initialNode = initializeNodes();
-        Automaton automaton = new Automaton(initialNode, "aaa");
-        System.out.println(automaton.evaluate());
 
-        runMenu(initialNode);
+        //initializeNodes
+        Node q0 = new Node("Q0",true, false);
+        Node q1 = new Node("Q1",false, true);
+        Node q2 = new Node("Q2",false, false);
+        Node q4 = new Node("Q4",false, true);
+        Node q5 = new Node("Q5",false, true);
+        Node q6 = new Node("Q6",false, true);
+        Node q7 = new Node("Q7",false, true);
+
+        q0.setLinkA(q4);
+        q0.setLinkB(null);
+        q1.setLinkA(q2);
+        q1.setLinkB(q1);
+        q2.setLinkA(q1);
+        q2.setLinkB(q5);
+        q4.setLinkA(q6);
+        q4.setLinkB(q1);
+        q5.setLinkA(q1);
+        q5.setLinkB(q5);
+        q6.setLinkA(q6);
+        q6.setLinkB(q7);
+        q7.setLinkA(q6);
+        q7.setLinkB(q7);
+        Automaton automaton = new Automaton(q0);
+
+        Menu.runMenu(automaton);
     }
 }

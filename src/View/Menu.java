@@ -7,7 +7,7 @@ import javax.swing.*;
 import java.util.Scanner;
 
 public class Menu {
-    public static void runMenu(Node initialNode) {
+    public static void runMenu(Automaton automaton) {
         Scanner sc = new Scanner(System.in);
         boolean running = true;
         while (running) {
@@ -15,8 +15,10 @@ public class Menu {
             switch (option) {
                 case "Ingresar cadena":
                     String inputString = JOptionPane.showInputDialog("Ingrese la cadena a evaluar");
-                    Automaton automaton = new Automaton(initialNode, inputString);
-                    System.out.println("Resultado: " + automaton.evaluate());
+                    System.out.println("Resultado: " + automaton.evaluate(inputString));
+                    break;
+                case "Ver automata":
+                    automaton.ShowGraph();
                     break;
                 case "Salir":
                     System.out.println("Saliendo del programa...");
@@ -27,7 +29,7 @@ public class Menu {
     }
 
     public static String MainMenu() {
-        String[] options = {"Ingresar cadena", "Salir"};
+        String[] options = {"Ingresar cadena", "Ver Automata","Salir"};
         return (String) JOptionPane.showInputDialog(
                 null,
                 "Seleccione una opción:",

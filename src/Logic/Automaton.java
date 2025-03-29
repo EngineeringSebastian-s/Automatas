@@ -1,45 +1,22 @@
 package Logic;
 
 import Bean.Node;
+import Utility.GraphvizController;
+
+import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.Queue;
+import java.util.Set;
 
 public class Automaton {
     private Node currentNode;
-    private final String inputString;
     private int index = 0;
 
-    public Automaton(Node initialNode, String inputString) {
+    public Automaton(Node initialNode) {
         this.currentNode = initialNode;
-        this.inputString = inputString;
     }
 
-    public static Node initializeNodes() {
-        Node q0 = new Node(true, false);
-        Node q1 = new Node(false, true);
-        Node q2 = new Node(false, false);
-        Node q4 = new Node(false, true);
-        Node q5 = new Node(false, true);
-        Node q6 = new Node(false, true);
-        Node q7 = new Node(false, true);
-
-        q0.setLinkA(q4);
-        q0.setLinkB(null);
-        q1.setLinkA(q2);
-        q1.setLinkB(q1);
-        q2.setLinkA(q1);
-        q2.setLinkB(q5);
-        q4.setLinkA(q6);
-        q4.setLinkB(q1);
-        q5.setLinkA(q1);
-        q5.setLinkB(q5);
-        q6.setLinkA(q6);
-        q6.setLinkB(q7);
-        q7.setLinkA(q6);
-        q7.setLinkB(q7);
-
-        return q0;
-    }
-
-    public boolean evaluate() {
+    public boolean evaluate(String inputString) {
         while (index < inputString.length()) {
             char symbol = inputString.charAt(index);
             Node nextNode = (symbol == 'a') ? currentNode.getLinkA() : currentNode.getLinkB();
@@ -52,6 +29,37 @@ public class Automaton {
             }
         }
         return currentNode.isFinal();
+    }
+
+    public void ShowGraph(){
+        Set<Node> visited = new HashSet<>();
+        Queue<Node> queue = new LinkedList<>();
+        StringBuilder ConfigGraphviz = new StringBuilder("graph ImagenAutomata\n{\nlayout=neato;\n");
+
+        queue.add(currentNode);
+        visited.add(currentNode);
+
+        while (!queue.isEmpty()) {
+            Node node = queue.poll();
+
+            if (node.getLinkA() != null) {
+                ConfigGraphviz.append(String.format("%s--%s [label=\"a\"];\n",node.getName(),node.getLinkA().getName()));
+                if (!visited.contains(node.getLinkA())) {
+                    queue.add(node.getLinkA());
+                    visited.add(node.getLinkA());
+                }
+            }
+
+            if (node.getLinkB() != null) {
+                ConfigGraphviz.append(String.format("%s--%s [label=\"b\"];\n",node.getName(),node.getLinkB().getName()));
+                if (!visited.contains(node.getLinkB())) {
+                    queue.add(node.getLinkB());
+                    visited.add(node.getLinkB());
+                }
+            }
+        }
+        ConfigGraphviz.append("}\n");
+        GraphvizController.generate(ConfigGraphviz.toString());
     }
 
 }
