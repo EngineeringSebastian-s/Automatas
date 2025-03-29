@@ -28,7 +28,7 @@ public class Menu {
     }
 
     public static String MainMenu() {
-        String[] options = {"Ingresar cadena", "Ver automata","Salir"};
+        String[] options = {"Evaluar recorrido", "Ver automata","Salir"};
         return (String) JOptionPane.showInputDialog(
                 null,
                 "Seleccione una opción:",

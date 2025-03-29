@@ -7,7 +7,6 @@ import java.io.FileWriter;
 import java.io.IOException;
 
 public class GraphvizController {
-    GraphvizController() {}
 
     public static void generate(String statement) {
         createFile(statement);
@@ -41,20 +40,9 @@ public class GraphvizController {
 
     public static void createFile(String statement) {
         try {
+            clearFile();
             String rootPath = System.getProperty("user.dir");
             FileWriter fileWriter = new FileWriter(rootPath + "\\src\\Utility\\ConfigGraphviz.txt");
-            BufferedWriter writer = new BufferedWriter(fileWriter);
-            writer.write(statement);
-            writer.close();
-        } catch (Exception ex) {
-            System.out.println("No se ha podido generar la imagen: " + ex.getMessage());
-        }
-    }
-
-    public static void appendToFile(String statement) {
-        try {
-            String rootPath = System.getProperty("user.dir");
-            FileWriter fileWriter = new FileWriter(rootPath + "\\src\\Utility\\ConfigGraphviz.txt", true);
             BufferedWriter writer = new BufferedWriter(fileWriter);
             writer.write(statement);
             writer.close();
