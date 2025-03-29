@@ -62,9 +62,9 @@ private Node getNextNode(Node currentNode, char symbol, List<String> symbols) {
     public void Show(){
         Set<Node> visited = new HashSet<>();
         Queue<Node> queue = new LinkedList<>();
-        StringBuilder ConfigGraphviz = new StringBuilder("digraph g\n" +
-                "{\n" +
-                    "rankdir=LR;\n");
+        StringBuilder ConfigGraphviz = new StringBuilder("digraph g {\n")
+                .append("rankdir=LR;\n")
+                .append("inicio [shape=plaintext];\n");
 
         queue.add(currentNode);
         visited.add(currentNode);
@@ -72,25 +72,32 @@ private Node getNextNode(Node currentNode, char symbol, List<String> symbols) {
         while (!queue.isEmpty()) {
             Node node = queue.poll();
 
-            if (node.getLinkA() != null) {
-                ConfigGraphviz.append(String.format("%s -> %s [label=\"a\", color=red];\n",node.getName(),node.getLinkA().getName()));
-                if (!visited.contains(node.getLinkA())) {
-                    queue.add(node.getLinkA());
-                    visited.add(node.getLinkA());
-                }
+            if(node.isFinal()){
+                ConfigGraphviz.append(String.format("%s [shape=doublecircle]", node.getName()));
             }
 
-            if (node.getLinkB() != null) {
-                ConfigGraphviz.append(String.format("%s -> %s [label=\"b\", color=blue];\n",node.getName(),node.getLinkB().getName()));
-                if (!visited.contains(node.getLinkB())) {
-                    queue.add(node.getLinkB());
-                    visited.add(node.getLinkB());
-                }
+            if(node.isInitial()){
+                ConfigGraphviz.append(String.format("inicio -> %s;\n%s [color=blue]", node.getName(),node.getName()));
             }
+
+            processLink(node, node.getLinkA(), "a", "red", queue, visited, ConfigGraphviz);
+            processLink(node, node.getLinkB(), "b", "blue", queue, visited, ConfigGraphviz);
         }
-        ConfigGraphviz.append("Q0 [color=red];\n");
         ConfigGraphviz.append("}\n");
         GraphvizController.generate(ConfigGraphviz.toString());
     }
 
+
+    private void processLink(Node node, Node linkedNode, String label, String color,
+                             Queue<Node> queue, Set<Node> visited, StringBuilder graphConfig) {
+        if (linkedNode != null) {
+            graphConfig.append(node.getName()).append(" -> ")
+                    .append(linkedNode.getName()).append(" [label=\"")
+                    .append(label).append("\", color=").append(color).append("];\n");
+
+            if (visited.add(linkedNode)) { // Solo añade si no ha sido visitado
+                queue.add(linkedNode);
+            }
+        }
+    }
 }
