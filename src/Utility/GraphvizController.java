@@ -5,6 +5,7 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.Arrays;
 
 public class GraphvizController {
 
@@ -81,6 +82,7 @@ public class GraphvizController {
 
             Runtime runtime = Runtime.getRuntime();
             runtime.exec(command);
+            System.out.println(Arrays.toString(command));
         } catch (Exception e) {
             System.out.println("No se ha podido generar la imagen: " + e.getMessage());
         }

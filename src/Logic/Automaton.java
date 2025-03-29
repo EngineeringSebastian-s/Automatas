@@ -21,7 +21,6 @@ public class Automaton {
     }
 
     public boolean evaluate(String inputString) {
-        inputString = inputString.toLowerCase();
 
         for (char symbol : inputString.toCharArray()) {
             if (!symbols.contains(String.valueOf(symbol))) {
@@ -30,6 +29,7 @@ public class Automaton {
         }
 
         int index = 0;
+        StringBuilder ConfigGraphviz = new StringBuilder("digraph g\n{\n");
         while (index < inputString.length()) {
             char symbol = inputString.charAt(index);
             Node nextNode = getNextNode(currentNode, symbol, symbols);
@@ -37,10 +37,12 @@ public class Automaton {
             if (nextNode == null) {
                 return false;
             }
-
+            ConfigGraphviz.append(String.format("%s -> %s [label=\"%c\"];\n",currentNode.getName(),nextNode.getName(), symbol));
             currentNode = nextNode;
             index++;
         }
+        ConfigGraphviz.append("}\n");
+        GraphvizController.generate(ConfigGraphviz.toString());
         return currentNode.isFinal();
     }
 
@@ -60,7 +62,9 @@ private Node getNextNode(Node currentNode, char symbol, List<String> symbols) {
     public void Show(){
         Set<Node> visited = new HashSet<>();
         Queue<Node> queue = new LinkedList<>();
-        StringBuilder ConfigGraphviz = new StringBuilder("graph g\n{\n");
+        StringBuilder ConfigGraphviz = new StringBuilder("digraph g\n" +
+                "{\n" +
+                    "rankdir=LR;\n");
 
         queue.add(currentNode);
         visited.add(currentNode);
@@ -69,7 +73,7 @@ private Node getNextNode(Node currentNode, char symbol, List<String> symbols) {
             Node node = queue.poll();
 
             if (node.getLinkA() != null) {
-                ConfigGraphviz.append(String.format("%s -> %s [label=\"a\"];\n",node.getName(),node.getLinkA().getName()));
+                ConfigGraphviz.append(String.format("%s -> %s [label=\"a\", color=red];\n",node.getName(),node.getLinkA().getName()));
                 if (!visited.contains(node.getLinkA())) {
                     queue.add(node.getLinkA());
                     visited.add(node.getLinkA());
@@ -77,7 +81,7 @@ private Node getNextNode(Node currentNode, char symbol, List<String> symbols) {
             }
 
             if (node.getLinkB() != null) {
-                ConfigGraphviz.append(String.format("%s -> %s [label=\"b\"];\n",node.getName(),node.getLinkB().getName()));
+                ConfigGraphviz.append(String.format("%s -> %s [label=\"b\", color=blue];\n",node.getName(),node.getLinkB().getName()));
                 if (!visited.contains(node.getLinkB())) {
                     queue.add(node.getLinkB());
                     visited.add(node.getLinkB());

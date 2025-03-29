@@ -1,17 +1,18 @@
-graph g
+digraph g
 {
-Q0 -> Q4 [label="a"];
-Q4 -> Q6 [label="a"];
-Q4 -> Q1 [label="b"];
-Q6 -> Q6 [label="a"];
-Q6 -> Q7 [label="b"];
-Q1 -> Q2 [label="a"];
-Q1 -> Q1 [label="b"];
-Q7 -> Q6 [label="a"];
-Q7 -> Q7 [label="b"];
-Q2 -> Q1 [label="a"];
-Q2 -> Q5 [label="b"];
-Q5 -> Q1 [label="a"];
-Q5 -> Q5 [label="b"];
+rankdir=LR;
+Q0 -> Q4 [label="a", color=red];
+Q4 -> Q6 [label="a", color=red];
+Q4 -> Q1 [label="b", color=blue];
+Q6 -> Q6 [label="a", color=red];
+Q6 -> Q7 [label="b", color=blue];
+Q1 -> Q2 [label="a", color=red];
+Q1 -> Q1 [label="b", color=blue];
+Q7 -> Q6 [label="a", color=red];
+Q7 -> Q7 [label="b", color=blue];
+Q2 -> Q1 [label="a", color=red];
+Q2 -> Q5 [label="b", color=blue];
+Q5 -> Q1 [label="a", color=red];
+Q5 -> Q5 [label="b", color=blue];
 Q0 [color=red];
 }
