@@ -8,20 +8,26 @@ import java.util.Scanner;
 public class Menu {
     public static void runMenu(Automaton automaton) {
         Scanner sc = new Scanner(System.in);
-        boolean running = true;
-        while (running) {
+        boolean app = true;
+        while (app) {
             String option = MainMenu();
             switch (option) {
-                case "Ingresar cadena":
+                case "Evaluar recorrido":
                     String inputString = JOptionPane.showInputDialog("Ingrese la cadena a evaluar");
-                    System.out.println("Resultado: " + automaton.evaluate(inputString));
+                    boolean ope = automaton.evaluate(inputString);
+                    if (ope){
+                        JOptionPane.showMessageDialog(null, "Recorrido realizado con éxito","Verdadero",JOptionPane.INFORMATION_MESSAGE);
+                    }else{
+                        JOptionPane.showMessageDialog(null, "El Recorrido no se puede realizar", "Falso", JOptionPane.ERROR_MESSAGE);
+                    }
+
                     break;
                 case "Ver automata":
                     automaton.Show();
                     break;
                 case "Salir":
                     System.out.println("Saliendo del programa...");
-                    running = false;
+                    app = false;
                     break;
             }
         }

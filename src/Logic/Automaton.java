@@ -3,30 +3,49 @@ package Logic;
 import Bean.Node;
 import Utility.GraphvizController;
 
-import java.util.HashSet;
-import java.util.LinkedList;
-import java.util.Queue;
-import java.util.Set;
+import java.util.*;
 
 public class Automaton {
     private Node currentNode;
-    private int index = 0;
+    public List<String> symbols;
 
-    public Automaton(Node initialNode) {
+    public Automaton(Node initialNode, List<String> symbols) {
         this.currentNode = initialNode;
+
+        if (symbols == null || symbols.size() != 2) {
+            throw new IllegalArgumentException("La lista de símbolos debe contener exactamente 2 elementos.");
+        }
+
+        this.symbols = symbols;
+
     }
 
     public boolean evaluate(String inputString) {
+        inputString = inputString.toLowerCase();
+
+        if (!inputString.matches("[ab]+")) {
+            return false;
+        }
+
+        int index = 0;
         while (index < inputString.length()) {
             char symbol = inputString.charAt(index);
-            Node nextNode = (symbol == 'a') ? currentNode.getLinkA() : currentNode.getLinkB();
 
-            if (nextNode != null) {
-                currentNode = nextNode;
-                index++;
+            Node nextNode = null;
+            if (symbol == 'a') {
+                nextNode = currentNode.getLinkA();
+            } else if (symbol == 'b') {
+                nextNode = currentNode.getLinkB();
             } else {
                 return false;
             }
+
+            if (nextNode == null) {
+                return false;
+            }
+
+            currentNode = nextNode;
+            index++;
         }
         return currentNode.isFinal();
     }

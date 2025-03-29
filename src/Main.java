@@ -3,6 +3,8 @@ import Logic.Automaton;
 
 import View.Menu;
 
+import java.util.List;
+
 
 public class Main {
     public static void main(String[] args) {
@@ -31,7 +33,7 @@ public class Main {
         q6.setLinkB(q7);
         q7.setLinkA(q6);
         q7.setLinkB(q7);
-        Automaton automaton = new Automaton(q0);
+        Automaton automaton = new Automaton(q0, List.of(new String[]{"a", "b"}));
 
         Menu.runMenu(automaton);
     }
