@@ -23,22 +23,16 @@ public class Automaton {
     public boolean evaluate(String inputString) {
         inputString = inputString.toLowerCase();
 
-        if (!inputString.matches("[ab]+")) {
-            return false;
+        for (char symbol : inputString.toCharArray()) {
+            if (!symbols.contains(String.valueOf(symbol))) {
+                return false;
+            }
         }
 
         int index = 0;
         while (index < inputString.length()) {
             char symbol = inputString.charAt(index);
-
-            Node nextNode = null;
-            if (symbol == 'a') {
-                nextNode = currentNode.getLinkA();
-            } else if (symbol == 'b') {
-                nextNode = currentNode.getLinkB();
-            } else {
-                return false;
-            }
+            Node nextNode = getNextNode(currentNode, symbol, symbols);
 
             if (nextNode == null) {
                 return false;
@@ -49,6 +43,19 @@ public class Automaton {
         }
         return currentNode.isFinal();
     }
+
+private Node getNextNode(Node currentNode, char symbol, List<String> symbols) {
+    if (symbols.size() < 2) {
+        return null;
+    }
+
+    if (String.valueOf(symbol).equals(symbols.get(0))) {
+        return currentNode.getLinkA();
+    } else if (String.valueOf(symbol).equals(symbols.get(1))) {
+        return currentNode.getLinkB();
+    }
+    return null;
+}
 
     public void Show(){
         Set<Node> visited = new HashSet<>();
