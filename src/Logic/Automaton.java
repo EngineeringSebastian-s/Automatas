@@ -6,11 +6,11 @@ import Utility.GraphvizController;
 import java.util.*;
 
 public class Automaton {
-    private Node currentNode;
+    private final Node initalNode;
     public List<String> symbols;
 
     public Automaton(Node initialNode, List<String> symbols) {
-        this.currentNode = initialNode;
+        this.initalNode = initialNode;
 
         if (symbols == null || symbols.size() != 2) {
             throw new IllegalArgumentException("La lista de símbolos debe contener exactamente 2 elementos.");
@@ -33,7 +33,7 @@ public class Automaton {
                 .append("rankdir=LR;\n")
                 .append("inicio [shape=plaintext];\n")
                 .append("node [fillcolor=yellow,style=filled];\n");
-
+        Node currentNode = initalNode;
         while (index < inputString.length()) {
             char symbol = inputString.charAt(index);
             Node nextNode = getNextNode(currentNode, symbol, symbols);
@@ -55,8 +55,11 @@ public class Automaton {
             index++;
         }
         ConfigGraphviz.append("}\n");
-        GraphvizController.generate(ConfigGraphviz.toString());
-        return currentNode.isFinal();
+        if(currentNode.isFinal()){
+            GraphvizController.generate(ConfigGraphviz.toString());
+            return true;
+        };
+        return false;
     }
 
 private Node getNextNode(Node currentNode, char symbol, List<String> symbols) {
@@ -80,8 +83,8 @@ private Node getNextNode(Node currentNode, char symbol, List<String> symbols) {
                 .append("inicio [shape=plaintext];\n")
                 .append("node [fillcolor=yellow,style=filled];\n");
 
-        queue.add(currentNode);
-        visited.add(currentNode);
+        queue.add(initalNode);
+        visited.add(initalNode);
 
         while (!queue.isEmpty()) {
             Node node = queue.poll();
