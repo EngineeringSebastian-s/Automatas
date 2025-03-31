@@ -15,9 +15,9 @@ public class Menu {
                 case "Evaluar recorrido":
                     String inputString = JOptionPane.showInputDialog("Ingrese la cadena a evaluar");
                     boolean ope = automaton.evaluate(inputString);
-                    if (ope){
-                        JOptionPane.showMessageDialog(null, "Recorrido realizado con éxito","Verdadero",JOptionPane.INFORMATION_MESSAGE);
-                    }else{
+                    if (ope) {
+                        JOptionPane.showMessageDialog(null, "Recorrido realizado con éxito", "Verdadero", JOptionPane.INFORMATION_MESSAGE);
+                    } else {
                         JOptionPane.showMessageDialog(null, "El Recorrido no se puede realizar", "Falso", JOptionPane.ERROR_MESSAGE);
                     }
 
@@ -34,7 +34,7 @@ public class Menu {
     }
 
     public static String MainMenu() {
-        String[] options = {"Evaluar recorrido", "Ver automata","Salir"};
+        String[] options = {"Evaluar recorrido", "Ver automata", "Salir"};
         return (String) JOptionPane.showInputDialog(
                 null,
                 "Seleccione una opción:",
