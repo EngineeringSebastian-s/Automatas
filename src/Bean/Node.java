@@ -1,16 +1,18 @@
 package Bean;
 
+import java.util.HashMap;
+
 public class Node {
     public String name;
-    public boolean isFinal;
+    private boolean isFinal;
     private boolean isInitial;
-    private Node linkA = null;
-    private Node linkB = null;
+    private HashMap<Character, Node> transitions;
 
     public Node(String name, boolean isInitial, boolean isFinal) {
         this.isInitial = isInitial;
         this.isFinal = isFinal;
         this.name = name;
+        this.transitions = new HashMap<>();
     }
 
     public String getName() {
@@ -37,19 +39,19 @@ public class Node {
         isInitial = initial;
     }
 
-    public Node getLinkA() {
-        return linkA;
+    public HashMap<Character, Node> getTransitions() {
+        return transitions;
     }
 
-    public void setLinkA(Node linkA) {
-        this.linkA = linkA;
+    public void setTransitions(HashMap<Character, Node> transitions) {
+        this.transitions = transitions;
     }
 
-    public Node getLinkB() {
-        return linkB;
+    public Node getTransitionNode(Character character) {
+        return transitions.get(character);
     }
 
-    public void setLinkB(Node linkB) {
-        this.linkB = linkB;
+    public void setTransitionNode(Character character, Node node) {
+        transitions.put(character, node);
     }
 }

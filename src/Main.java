@@ -2,11 +2,16 @@ import Bean.Node;
 import Logic.Automaton;
 import View.Menu;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
 public class Main {
     public static void main(String[] args) {
+
+        List<Character> symbols = new ArrayList<Character>();
+        symbols.add('a');
+        symbols.add('b');
 
         //initializeNodes
         Node q0 = new Node("Q0", true, false);
@@ -18,21 +23,21 @@ public class Main {
         Node q6 = new Node("Q6", false, true);
         Node q7 = new Node("Q7", false, true);
 
-        q0.setLinkA(q4);
-        q0.setLinkB(null);
-        q1.setLinkA(q2);
-        q1.setLinkB(q1);
-        q2.setLinkA(q1);
-        q2.setLinkB(q5);
-        q4.setLinkA(q6);
-        q4.setLinkB(q1);
-        q5.setLinkA(q1);
-        q5.setLinkB(q5);
-        q6.setLinkA(q6);
-        q6.setLinkB(q7);
-        q7.setLinkA(q6);
-        q7.setLinkB(q7);
-        Automaton automaton = new Automaton(q0, List.of(new String[]{"a", "b"}));
+        q0.setTransitionNode('a', q4);
+        q1.setTransitionNode('a', q2);
+        q1.setTransitionNode('b', q1);
+        q2.setTransitionNode('a', q1);
+        q2.setTransitionNode('b', q5);
+        q4.setTransitionNode('a', q6);
+        q4.setTransitionNode('b', q1);
+        q5.setTransitionNode('a', q1);
+        q5.setTransitionNode('b', q5);
+        q6.setTransitionNode('a', q6);
+        q6.setTransitionNode('b', q7);
+        q7.setTransitionNode('a', q6);
+        q7.setTransitionNode('b', q7);
+
+        Automaton automaton = new Automaton(q0, symbols);
 
         Menu.runMenu(automaton);
     }

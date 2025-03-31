@@ -7,9 +7,9 @@ import java.util.*;
 
 public class Automaton {
     private final Node initalNode;
-    public List<String> symbols;
+    public List<Character> symbols;
 
-    public Automaton(Node initialNode, List<String> symbols) {
+    public Automaton(Node initialNode, List<Character> symbols) {
         this.initalNode = initialNode;
         if (symbols == null || symbols.size() != 2) {
             throw new IllegalArgumentException("La lista de símbolos debe contener exactamente 2 elementos.");
@@ -21,7 +21,7 @@ public class Automaton {
     public boolean evaluate(String inputString) {
 
         for (char symbol : inputString.toCharArray()) {
-            if (!symbols.contains(String.valueOf(symbol))) {
+            if (!symbols.contains(symbol)) {
                 return false;
             }
         }
@@ -34,7 +34,7 @@ public class Automaton {
         Node currentNode = this.initalNode;
         while (index < inputString.length()) {
             char symbol = inputString.charAt(index);
-            Node nextNode = getNextNode(currentNode, symbol, this.symbols);
+            Node nextNode = currentNode.getTransitionNode(symbol);
 
             if (nextNode == null) {
                 return false;
@@ -60,19 +60,6 @@ public class Automaton {
         return false;
     }
 
-    private Node getNextNode(Node currentNode, char symbol, List<String> symbols) {
-        if (symbols.size() < 2) {
-            return null;
-        }
-
-        if (String.valueOf(symbol).equals(symbols.get(0))) {
-            return currentNode.getLinkA();
-        } else if (String.valueOf(symbol).equals(symbols.get(1))) {
-            return currentNode.getLinkB();
-        }
-        return null;
-    }
-
     public void Show() {
         Set<Node> visited = new HashSet<>();
         Queue<Node> queue = new LinkedList<>();
@@ -95,8 +82,8 @@ public class Automaton {
                 ConfigGraphviz.append(String.format("inicio -> %s;\n%s [fillcolor=lightblue, style=filled]", node.getName(), node.getName()));
             }
 
-            processLink(node, node.getLinkA(), "a", "red", queue, visited, ConfigGraphviz);
-            processLink(node, node.getLinkB(), "b", "blue", queue, visited, ConfigGraphviz);
+            processLink(node, node.getTransitionNode('a'), "a", "red", queue, visited, ConfigGraphviz);
+            processLink(node, node.getTransitionNode('b'), "b", "blue", queue, visited, ConfigGraphviz);
         }
         ConfigGraphviz.append("}\n");
         GraphvizController.generate(ConfigGraphviz.toString());
