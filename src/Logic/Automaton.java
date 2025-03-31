@@ -1,15 +1,16 @@
 package Logic;
 
 import Bean.Node;
+import Bean.Symbol;
 import Utility.GraphvizController;
 
 import java.util.*;
 
 public class Automaton {
     private final Node initalNode;
-    public List<Character> symbols;
+    public List<Symbol> symbols;
 
-    public Automaton(Node initialNode, List<Character> symbols) {
+    public Automaton(Node initialNode, List<Symbol> symbols) {
         this.initalNode = initialNode;
         if (symbols == null || symbols.size() != 2) {
             throw new IllegalArgumentException("La lista de símbolos debe contener exactamente 2 elementos.");
@@ -21,7 +22,7 @@ public class Automaton {
     public boolean evaluate(String inputString) {
 
         for (char symbol : inputString.toCharArray()) {
-            if (!symbols.contains(symbol)) {
+            if (symbols.stream().noneMatch(s -> s.getCharacter() == symbol)) {
                 return false;
             }
         }
@@ -81,25 +82,20 @@ public class Automaton {
             if (node.isInitial()) {
                 ConfigGraphviz.append(String.format("inicio -> %s;\n%s [fillcolor=lightblue, style=filled]", node.getName(), node.getName()));
             }
+            for(Symbol symbol : this.symbols) {
+                Node linkedNode = node.getTransitionNode(symbol.getCharacter());
+                if (linkedNode != null) {
+                    ConfigGraphviz.append(node.getName()).append(" -> ")
+                            .append(linkedNode.getName()).append(" [label=\"")
+                            .append(symbol.getCharacter()).append("\", color=").append(symbol.getColor()).append("];\n");
 
-            processLink(node, node.getTransitionNode('a'), "a", "red", queue, visited, ConfigGraphviz);
-            processLink(node, node.getTransitionNode('b'), "b", "blue", queue, visited, ConfigGraphviz);
+                    if (visited.add(linkedNode)) {
+                        queue.add(linkedNode);
+                    }
+                }
+            }
         }
         ConfigGraphviz.append("}\n");
         GraphvizController.generate(ConfigGraphviz.toString());
-    }
-
-
-    private void processLink(Node node, Node linkedNode, String label, String color,
-                             Queue<Node> queue, Set<Node> visited, StringBuilder graphConfig) {
-        if (linkedNode != null) {
-            graphConfig.append(node.getName()).append(" -> ")
-                    .append(linkedNode.getName()).append(" [label=\"")
-                    .append(label).append("\", color=").append(color).append("];\n");
-
-            if (visited.add(linkedNode)) { // Solo añade si no ha sido visitado
-                queue.add(linkedNode);
-            }
-        }
     }
 }

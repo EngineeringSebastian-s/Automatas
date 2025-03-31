@@ -1,4 +1,5 @@
 import Bean.Node;
+import Bean.Symbol;
 import Logic.Automaton;
 import View.Menu;
 
@@ -9,9 +10,9 @@ import java.util.List;
 public class Main {
     public static void main(String[] args) {
 
-        List<Character> symbols = new ArrayList<Character>();
-        symbols.add('a');
-        symbols.add('b');
+        List<Symbol> symbols = new ArrayList<Symbol>();
+        symbols.add(new Symbol('a',"red"));
+        symbols.add(new Symbol('b',"blue"));
 
         //initializeNodes
         Node q0 = new Node("Q0", true, false);
